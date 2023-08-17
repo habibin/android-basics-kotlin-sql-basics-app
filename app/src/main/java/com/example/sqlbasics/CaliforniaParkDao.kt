@@ -20,9 +20,9 @@ import androidx.room.Insert
 import androidx.room.Query
 
 @Dao
-interface CaliforniaParkDao {
+interface AirportFlightDao {
     @Insert
-    suspend fun insertAll(parks: List<CaliforniaPark>)
-    @Query("SELECT * FROM park")
-    suspend fun getAll(): List<CaliforniaPark>
+    suspend fun insertAll(parks: List<AirportFlight>)
+    @Query("SELECT * FROM airport")
+    suspend fun getAll(): List<AirportFlight>
 }

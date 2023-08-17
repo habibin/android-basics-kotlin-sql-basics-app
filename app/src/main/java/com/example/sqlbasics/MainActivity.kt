@@ -25,7 +25,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         GlobalScope.launch {
-            AppDatabase.getDatabase(applicationContext).californiaParkDao().getAll()
+            AppDatabase.getDatabase(applicationContext).AirportFlightDao().getAll()
         }
     }
 }
