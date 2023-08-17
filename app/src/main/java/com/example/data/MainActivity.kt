@@ -13,16 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.example.sqlbasics
+package com.example.data
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.Query
+import androidx.appcompat.app.AppCompatActivity
+import android.os.Bundle
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
-@Dao
-interface AirportFlightDao {
-    @Insert
-    suspend fun insertAll(parks: List<AirportFlight>)
-    @Query("SELECT * FROM airport")
-    suspend fun getAll(): List<AirportFlight>
+class MainActivity : AppCompatActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+        GlobalScope.launch {
+            AppDatabase.getDatabase(applicationContext).AirportFlightDao().getAll()
+        }
+    }
 }
