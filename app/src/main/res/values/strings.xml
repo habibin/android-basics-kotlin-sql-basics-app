@@ -13,6 +13,6 @@
      limitations under the License.
 -->
 <resources>
-    <string name="app_name">SQL Basics</string>
+    <string name="app_name">Flight Search</string>
     <string name="instruction">The database is ready!\n\nUse the database inspector in Android Studio to run SQL commands.</string>
 </resources>

@@ -13,10 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.example.sqlbasics
+package com.example
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.example.data.AppDatabase
+import com.example.data.R
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 

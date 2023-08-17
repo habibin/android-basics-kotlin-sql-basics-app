@@ -13,23 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.example.sqlbasics
+package com.example.data
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import androidx.room.migration.Migration
-import androidx.sqlite.db.SupportSQLiteDatabase
 
-@Database(entities = arrayOf(AirportFlight::class), version = 2)
+/**
+ * Database class with a singleton Instance object.
+ */
+
+@Database(entities = [AirportFlight::class], version = 2)
 abstract class AppDatabase: RoomDatabase() {
-
-    val MIGRATION_1_2: Migration = object : Migration(1, 2) {
-        override fun migrate(database: SupportSQLiteDatabase) {
-            // Define your migration logic here
-        }
-    }
 
     abstract fun AirportFlightDao(): AirportFlightDao
 
@@ -42,11 +38,13 @@ abstract class AppDatabase: RoomDatabase() {
         ): AppDatabase {
             return INSTANCE ?: synchronized(this) {
                 val instance = Room.databaseBuilder(
-                    context,
-                    AppDatabase::class.java,
-                    "app_database"
-                )
+                    context, AppDatabase::class.java, "app_database")
                     .createFromAsset("database/flight_search.db")
+                    /**
+                     * Setting this option in your app's database builder means that Room
+                     * permanently deletes all data from the tables in your database when it
+                     * attempts to perform a migration with no defined migration path.
+                     */
                     .fallbackToDestructiveMigration()
                     .build()
                 INSTANCE = instance

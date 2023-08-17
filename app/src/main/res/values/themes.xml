@@ -12,11 +12,15 @@
      See the License for the specific language governing permissions and
      limitations under the License.
 -->
-<resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Theme.SQLBasics" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
-        <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/purple_500</item>
-        <item name="colorPrimaryVariant">@color/purple_700</item>
-    </style>
+<!--<resources xmlns:tools="http://schemas.android.com/tools">-->
+<!--&lt;!&ndash;    &lt;!&ndash; Base application theme. &ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;    <style name="Theme.SQLBasics" parent="Theme.MaterialComponents.DayNight.DarkActionBar">&ndash;&gt;-->
+<!--&lt;!&ndash;        &lt;!&ndash; Primary brand color. &ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;        <item name="colorPrimary">@color/purple_500</item>&ndash;&gt;-->
+<!--&lt;!&ndash;        <item name="colorPrimaryVariant">@color/purple_700</item>&ndash;&gt;-->
+<!--&lt;!&ndash;    </style>&ndash;&gt;-->
+<!--</resources>-->
+
+<resources>
+    <style name="Theme.Cupcake" parent="android:Theme.Material.Light.NoActionBar" />
 </resources>
