@@ -20,10 +20,26 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "airport")
-data class AirportFlight(
-    @PrimaryKey(autoGenerate = true) val id: Int,
-    @ColumnInfo(name = "name") val name: String,
-    @ColumnInfo(name = "iata_code") val iata: String,
-    @ColumnInfo(name = "passengers") val passengers: Int,
+data class Airport(
+    @PrimaryKey val id: Int,
+    val name: String,
+    @ColumnInfo(name = "iata_code") val iataCode: String,
+    val passengers: Long
+)
 
+// Flight.kt
+@Entity(tableName = "flights")
+data class Flight(
+    @PrimaryKey(autoGenerate = true)
+    val id: Int,
+    val sourceAirportIataCode: String,
+    val destinationAirportIataCode: String
+)
+
+// FavoriteRoute.kt
+@Entity(tableName = "favorite_routes")
+data class FavoriteRoute(
+    @PrimaryKey(autoGenerate = true)
+    val id: Int,
+    val flightId: Int
 )

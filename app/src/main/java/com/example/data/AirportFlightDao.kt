@@ -20,9 +20,12 @@ import androidx.room.Insert
 import androidx.room.Query
 
 @Dao
-interface AirportFlightDao {
+interface AirportDao {
     @Insert
-    suspend fun insertAll(parks: List<AirportFlight>)
+    suspend fun insertAll(airports: List<Airport>)
     @Query("SELECT * FROM airport")
-    suspend fun getAll(): List<AirportFlight>
+    suspend fun getAll(): List<Airport>
+
+    @Query("SELECT * FROM airport WHERE name LIKE :searchQuery OR iata_code LIKE :searchQuery")
+    fun searchAirports(searchQuery: String): List<Airport>
 }
