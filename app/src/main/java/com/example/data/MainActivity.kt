@@ -37,10 +37,9 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         val appDatabase =
-            AppDatabase.getDatabase(applicationContext) // Initialize your Room database
+            AppDatabase.getDatabase(applicationContext) // Initialize Room database
         val airportDao = appDatabase.AirportDao() // Access the DAO
         airportRepository = AirportRepository(airportDao)
-
         eventHandler()
     }
 
@@ -55,10 +54,15 @@ class MainActivity : AppCompatActivity() {
         // Set an OnItemClickListener to handle item selection
         autoCompleteTextView.setOnItemClickListener { _, _, position, _ ->
             val selectedAirport = adapter.getItem(position)
-            if (selectedAirport != null) {
-                // Handle the selected item, for example, log or display a toast
-                Log.i("MainActivity", "Selected Airport: $selectedAirport")
-                Toast.makeText(this, "Selected: $selectedAirport", Toast.LENGTH_SHORT).show()
+            val iatacode = selectedAirport?.substring(0, 3)
+            // Handle the selected item
+            Toast.makeText(this, "Selected: $iatacode", Toast.LENGTH_SHORT).show()
+            lifecycleScope.launch {
+                val allAirports = airportRepository.getAllExcept(iatacode!!)
+                // Observe the Flow using a coroutine
+                allAirports.collect { airports ->
+                    Log.i("MainActivity", "all Airport: $airports")
+                }
             }
         }
 
@@ -78,7 +82,6 @@ class MainActivity : AppCompatActivity() {
 
                     // Observe the Flow using a coroutine
                     airportsFlow.collect { airports ->
-                        Log.i("MainActivity", "airports: $airports")
                         // Update the adapter with the new suggestions
                         adapter.clear()
                         adapter.addAll(airports.map { airport -> "${airport.iata_code} ${airport.name}"})
