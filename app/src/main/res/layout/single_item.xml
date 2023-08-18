@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -9,33 +10,69 @@
     android:paddingBottom="12dp">
 
 
-    <TextView
-        android:id="@+id/departView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Depart"
-        android:textStyle="bold"
-        android:textSize="18sp"/>
+    <!-- Add the favorite icon -->
 
-    <TextView
-        android:id="@+id/departAirportView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Depart airport"
-        android:textSize="16sp"/>
+    <LinearLayout
+        android:layout_width="300dp"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/arriveView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Arrive"
-        android:textStyle="bold"
-        android:textSize="18sp"/>
+        <androidx.constraintlayout.widget.Group
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
 
-    <TextView
-        android:id="@+id/arriveAirportView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Arrive airport"
-        android:textSize="16sp"/>
-</LinearLayout>
+        <TextView
+            android:id="@+id/departView"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:text="@string/depart"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/departAirportView"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/arriveView"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:text="@string/arrive"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/arriveAirportView"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:textSize="16sp" />
+
+    </LinearLayout>
+
+    <ImageButton
+        android:id="@+id/emptyButton"
+        android:layout_width="64dp"
+        android:layout_height="55dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="300dp"
+        android:layout_marginTop="10dp"
+        android:background="@android:color/transparent"
+        android:contentDescription="@string/empty_icon_description"
+        app:srcCompat="@drawable/empty_favorite_heart" />
+
+    <ImageButton
+        android:id="@+id/filledButton"
+        android:layout_width="65dp"
+        android:layout_height="57dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="324dp"
+        android:layout_marginTop="24dp"
+        android:background="@android:color/transparent"
+        android:contentDescription="@string/filled_icon_description"
+        android:visibility="gone"
+        app:srcCompat="@drawable/filled_favorite_heart" />
+</RelativeLayout>

@@ -35,6 +35,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var arrayAdapter: ArrayAdapter<Airport>
     private lateinit var airportRepository: AirportRepository
     var emptyAirportList: List<Airport> = emptyList()
+    var favoriteAirportList: List<Airport> = emptyList()
     var selectedAirport: String = ""
 
     @OptIn(DelicateCoroutinesApi::class)

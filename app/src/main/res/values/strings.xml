@@ -17,4 +17,8 @@
     <string name="instruction">The database is ready!\n\nUse the database inspector in Android Studio to run SQL commands.</string>
     <string name="enter_airport_name_or_iata_code">Enter airport name or IATA code</string>
     <string name="seach_button">Search</string>
+    <string name="filled_icon_description">filled favorite heart</string>
+    <string name="empty_icon_description">empty favorite heart</string>
+    <string name="arrive">Arrive</string>
+    <string name="depart">Depart</string>
 </resources>
