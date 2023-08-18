@@ -23,7 +23,7 @@ import androidx.room.RoomDatabase
 @Database(entities = [Airport::class], version = 1)
 abstract class AppDatabase: RoomDatabase() {
 
-    abstract fun AirportFlightDao(): AirportDao
+    abstract fun AirportDao(): AirportDao
 
     companion object {
         @Volatile

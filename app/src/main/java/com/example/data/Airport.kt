@@ -15,17 +15,30 @@
  */
 package com.example.data
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.Query
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 
-@Dao
-interface AirportDao {
-    @Insert
-    suspend fun insertAll(airports: List<Airport>)
-    @Query("SELECT * FROM airport")
-    suspend fun getAll(): List<Airport>
+@Entity(tableName = "airport")
+data class Airport(
+    @PrimaryKey val id: Int,
+    val name: String,
+    @ColumnInfo(name = "iata_code") val iataCode: String,
+    val passengers: Long
+)
 
-    @Query("SELECT * FROM airport WHERE name LIKE :searchQuery OR iata_code LIKE :searchQuery")
-    fun searchAirports(searchQuery: String): List<Airport>
-}
+// Flight.kt
+@Entity(tableName = "flights")
+data class Flight(
+    @PrimaryKey val id: Int,
+    val sourceAirportIataCode: String,
+    val destinationAirportIataCode: String
+)
+
+// FavoriteRoute.kt
+@Entity(tableName = "favorite_routes")
+data class FavoriteRoute(
+    @PrimaryKey val id: Int,
+    val flightId: Int
+)
+

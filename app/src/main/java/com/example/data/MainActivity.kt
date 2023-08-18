@@ -16,18 +16,53 @@
 package com.example.data
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
+import android.util.Log
+import android.widget.EditText
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.coroutines.DelicateCoroutinesApi
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
     @OptIn(DelicateCoroutinesApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        GlobalScope.launch {
-            AppDatabase.getDatabase(applicationContext).AirportFlightDao().getAll()
+        eventHandler()
+    }
+
+
+    private fun eventHandler() {
+        // Retrieve the EditText
+        val searchBox = findViewById<EditText>(R.id.searchEditText)
+
+        // Set a TextWatcher
+        searchBox.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                // This method is called before the text changes
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                // This method is called when the text is changing
+                val searchText = s.toString()
+                Log.i("MainActivity", "Search Text: $searchText")
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                // This method is called after the text changes
+            }
+        })
+
+        // Find and set a click listener for the search button
+        val searchButton = findViewById<FloatingActionButton>(R.id.search_button)
+        searchButton.setOnClickListener {
+            val searchText = searchBox.text.toString()
+            Log.i("MainActivity", "Search Text when button clicked: $searchText")
+            Toast.makeText(this, "Button clicked", Toast.LENGTH_SHORT).show()
         }
     }
 }
+
+
