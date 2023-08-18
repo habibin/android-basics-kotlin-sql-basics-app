@@ -43,3 +43,4 @@ data class FavoriteRoute(
     val id: Int,
     val flightId: Int
 )
+

@@ -11,34 +11,60 @@
 
 
     <!-- RecyclerView for Results or Favorites -->
+
+
     <EditText
         android:id="@+id/searchEditText"
         android:layout_width="350dp"
-        android:layout_height="48dp"
+        android:layout_height="60dp"
         android:layout_margin="16dp"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="16dp"
         android:autofillHints=""
         android:hint="@string/enter_airport_name_or_iata_code"
         android:inputType="text"
         android:maxLines="1"
         android:padding="8dp"
-        android:drawableStart="@drawable/baseline_search_24"
-        android:drawablePadding="8dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.491"
+        app:layout_constraintHorizontal_bias="0.262"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/resultsRecyclerView"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintTop_toBottomOf="@+id/searchEditText"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="16dp"
         android:visibility="gone"
-        android:layout_marginTop="16dp"/>
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/searchEditText" />
+
+    <ListView
+        android:layout_width="366dp"
+        android:layout_height="500dp"
+        android:layout_marginStart="23dp"
+        android:layout_marginEnd="22dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="VisualLintBounds" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/search_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="37dp"
+        android:clickable="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.857"
+        app:layout_constraintStart_toEndOf="@+id/searchEditText"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/baseline_search_24"
+        tools:ignore="SpeakableTextPresentCheck"
+        android:focusable="true"
+        android:contentDescription="@string/seach_button" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
