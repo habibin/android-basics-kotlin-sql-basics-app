@@ -31,6 +31,7 @@ import kotlinx.coroutines.launch
 class MainActivity : AppCompatActivity() {
 
     private lateinit var mListView: ListView
+    private lateinit var arrayAdapter: ArrayAdapter<Airport>
     private lateinit var airportRepository: AirportRepository
     var emptyAirportList: List<Airport> = emptyList()
 
@@ -68,7 +69,7 @@ class MainActivity : AppCompatActivity() {
                 val allAirports = airportRepository.getAllExcept(iatacode!!)
                 // Observe the Flow using a coroutine
                 allAirports.collect { airports ->
-                    emptyAirportList = airports
+                    updateAirportList(airports)
                     Log.i("MainActivity", "all Airport: $airports")
 
                 }
@@ -103,31 +104,9 @@ class MainActivity : AppCompatActivity() {
                 // This method is called after the text changes
             }
         })
-        // use arrayadapter and define an array
-        val arrayAdapter: ArrayAdapter<*>
-        val users = listOf(
-            Airport(id = 1, name = "Francisco Sá Carneiro Airport", iata_code = "OPO", passengers = 5053134),
-            Airport(id = 2, name = "Stockholm Arlanda Airport", iata_code = "ARN", passengers = 7494765),
-            Airport(id = 3, name = "Warsaw Chopin Airport", iata_code = "WAW", passengers = 18860000),
-            Airport(id = 1, name = "Francisco Sá Carneiro Airport", iata_code = "OPO", passengers = 5053134),
-            Airport(id = 2, name = "Stockholm Arlanda Airport", iata_code = "ARN", passengers = 7494765),
-            Airport(id = 3, name = "Warsaw Chopin Airport", iata_code = "WAW", passengers = 18860000),
-            Airport(id = 1, name = "Francisco Sá Carneiro Airport", iata_code = "OPO", passengers = 5053134),
-            Airport(id = 2, name = "Stockholm Arlanda Airport", iata_code = "ARN", passengers = 7494765),
-            Airport(id = 3, name = "Warsaw Chopin Airport", iata_code = "WAW", passengers = 18860000),
-            Airport(id = 1, name = "Francisco Sá Carneiro Airport", iata_code = "OPO", passengers = 5053134),
-            Airport(id = 2, name = "Stockholm Arlanda Airport", iata_code = "ARN", passengers = 7494765),
-            Airport(id = 3, name = "Warsaw Chopin Airport", iata_code = "WAW", passengers = 18860000),
-            Airport(id = 1, name = "Francisco Sá Carneiro Airport", iata_code = "OPO", passengers = 5053134),
-            Airport(id = 2, name = "Stockholm Arlanda Airport", iata_code = "ARN", passengers = 7494765),
-            Airport(id = 3, name = "Warsaw Chopin Airport", iata_code = "WAW", passengers = 18860000),
-            Airport(id = 4, name = "Marseille Provence Airport", iata_code = "MRS", passengers = 1234567))
-
-        emptyAirportList = users
-
-        // access the listView from xml file
-        arrayAdapter = ArrayAdapter(this,
-            android.R.layout.simple_list_item_1, emptyAirportList)
+    }
+    private fun updateAirportList(newList: List<Airport>) {
+        arrayAdapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, newList)
         mListView.adapter = arrayAdapter
     }
 }

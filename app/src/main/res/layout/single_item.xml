@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingStart ="12dp"
+    android:paddingEnd ="12dp"
+    android:paddingBottom="12dp">
+
+
+    <TextView
+        android:id="@+id/departView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Depart"/>
+
+    <TextView
+        android:id="@+id/departAirportView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Depart airport"/>
+
+    <TextView
+        android:id="@+id/arriveView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Arrive"/>
+
+    <TextView
+        android:id="@+id/arriveAirportView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Arrive airport"/>
+</LinearLayout>
