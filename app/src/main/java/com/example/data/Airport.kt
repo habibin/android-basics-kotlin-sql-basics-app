@@ -23,7 +23,7 @@ import androidx.room.PrimaryKey
 data class Airport(
     @PrimaryKey val id: Int,
     val name: String,
-    @ColumnInfo(name = "iata_code") val iataCode: String,
+    @ColumnInfo(name = "iata_code") val iata: String,
     val passengers: Long
 )
 
@@ -31,8 +31,8 @@ data class Airport(
 @Entity(tableName = "flights")
 data class Flight(
     @PrimaryKey val id: Int,
-    val sourceAirportIataCode: String,
-    val destinationAirportIataCode: String
+    val sourceAirportIata: String,
+    val destinationAirportIata: String
 )
 
 // FavoriteRoute.kt

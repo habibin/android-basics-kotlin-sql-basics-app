@@ -19,27 +19,40 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
-import android.widget.EditText
-import android.widget.Toast
+import android.widget.ArrayAdapter
+import android.widget.AutoCompleteTextView
 import androidx.appcompat.app.AppCompatActivity
-import com.google.android.material.floatingactionbutton.FloatingActionButton
+import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
+
+    private lateinit var airportRepository: AirportRepository
+
     @OptIn(DelicateCoroutinesApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        val appDatabase =
+            AppDatabase.getDatabase(applicationContext) // Initialize your Room database
+        val airportDao = appDatabase.AirportDao() // Access the DAO
+        airportRepository = AirportRepository(airportDao)
+
         eventHandler()
     }
 
-
     private fun eventHandler() {
-        // Retrieve the EditText
-        val searchBox = findViewById<EditText>(R.id.searchEditText)
+        // Retrieve the AutoCompleteTextView
+        val autoCompleteTextView = findViewById<AutoCompleteTextView>(R.id.searchEditText)
 
-        // Set a TextWatcher
-        searchBox.addTextChangedListener(object : TextWatcher {
+        // Set up the adapter for the AutoCompleteTextView
+        val adapter = ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line)
+        autoCompleteTextView.setAdapter(adapter)
+
+        // Set a TextWatcher to update suggestions as the user types
+        autoCompleteTextView.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
                 // This method is called before the text changes
             }
@@ -47,21 +60,26 @@ class MainActivity : AppCompatActivity() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 // This method is called when the text is changing
                 val searchText = s.toString()
-                Log.i("MainActivity", "Search Text: $searchText")
+
+                lifecycleScope.launch {
+                    // Call the searchAirports function from the repository
+                    val airportsFlow = airportRepository.searchAirports(searchText)
+
+                    // Observe the Flow using a coroutine
+                    airportsFlow.collect { airports ->
+                        Log.i("MainActivity", "airports: $airports")
+                        // Update the adapter with the new suggestions
+                        adapter.clear()
+                        adapter.addAll(airports.map { airport -> airport.name })
+                        adapter.notifyDataSetChanged()
+                    }
+                }
             }
 
             override fun afterTextChanged(s: Editable?) {
                 // This method is called after the text changes
             }
         })
-
-        // Find and set a click listener for the search button
-        val searchButton = findViewById<FloatingActionButton>(R.id.search_button)
-        searchButton.setOnClickListener {
-            val searchText = searchBox.text.toString()
-            Log.i("MainActivity", "Search Text when button clicked: $searchText")
-            Toast.makeText(this, "Button clicked", Toast.LENGTH_SHORT).show()
-        }
     }
 }
 
