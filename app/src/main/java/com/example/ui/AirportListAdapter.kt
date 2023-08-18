@@ -9,7 +9,7 @@ import android.widget.TextView
 import com.example.data.Airport
 import com.example.data.R
 
-class AirportListAdapter(context: Context, private val resource: Int, private val airportList: List<Airport>)
+class AirportListAdapter(context: Context, private val resource: Int, private val selectedAirport: String, private val airportList: List<Airport>)
     : ArrayAdapter<Airport>(context, resource, airportList) {
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
@@ -21,8 +21,8 @@ class AirportListAdapter(context: Context, private val resource: Int, private va
         val arriveAirportView: TextView = itemView.findViewById(R.id.arriveAirportView)
 
         // Set data to the TextViews
-        departAirportView.text = airport.name
-        arriveAirportView.text = airport.iata_code
+        departAirportView.text = selectedAirport
+        arriveAirportView.text = "${airport.iata_code} ${airport.name}"
 
         return itemView
     }

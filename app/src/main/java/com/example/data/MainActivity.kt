@@ -18,7 +18,6 @@ package com.example.data
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.ListView
@@ -36,6 +35,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var arrayAdapter: ArrayAdapter<Airport>
     private lateinit var airportRepository: AirportRepository
     var emptyAirportList: List<Airport> = emptyList()
+    var selectedAirport: String = ""
 
     @OptIn(DelicateCoroutinesApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -62,7 +62,7 @@ class MainActivity : AppCompatActivity() {
 
         // Set an OnItemClickListener to handle item selection
         autoCompleteTextView.setOnItemClickListener { _, _, position, _ ->
-            val selectedAirport = adapter.getItem(position)
+            selectedAirport = adapter.getItem(position)!!
             val iatacode = selectedAirport?.substring(0, 3)
 
             // Handle the selected item
@@ -72,7 +72,6 @@ class MainActivity : AppCompatActivity() {
                 // Observe the Flow using a coroutine
                 allAirports.collect { airports ->
                     updateAirportList(airports)
-                    Log.i("MainActivity", "all Airport: $airports")
 
                 }
             }
@@ -108,7 +107,7 @@ class MainActivity : AppCompatActivity() {
         })
     }
     private fun updateAirportList(newList: List<Airport>) {
-        val airportListAdapter = AirportListAdapter(this, R.layout.single_item, newList)
+        val airportListAdapter = AirportListAdapter(this, R.layout.single_item,selectedAirport, newList)
         mListView.adapter = airportListAdapter
     }
 }
