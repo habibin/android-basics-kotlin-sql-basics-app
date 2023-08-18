@@ -25,11 +25,13 @@ import android.widget.ListView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
+import com.example.ui.AirportListAdapter
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
 
+    private lateinit var airportListAdapter: AirportListAdapter
     private lateinit var mListView: ListView
     private lateinit var arrayAdapter: ArrayAdapter<Airport>
     private lateinit var airportRepository: AirportRepository
@@ -106,8 +108,8 @@ class MainActivity : AppCompatActivity() {
         })
     }
     private fun updateAirportList(newList: List<Airport>) {
-        arrayAdapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, newList)
-        mListView.adapter = arrayAdapter
+        val airportListAdapter = AirportListAdapter(this, R.layout.single_item, newList)
+        mListView.adapter = airportListAdapter
     }
 }
 
