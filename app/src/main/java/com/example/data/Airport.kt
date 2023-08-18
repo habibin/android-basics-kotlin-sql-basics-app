@@ -15,7 +15,6 @@
  */
 package com.example.data
 
-import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
@@ -23,7 +22,7 @@ import androidx.room.PrimaryKey
 data class Airport(
     @PrimaryKey val id: Int,
     val name: String,
-    @ColumnInfo(name = "iata_code") val iata: String,
+    val iata_code: String,
     val passengers: Long
 )
 

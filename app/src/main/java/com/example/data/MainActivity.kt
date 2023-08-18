@@ -21,6 +21,7 @@ import android.text.TextWatcher
 import android.util.Log
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.DelicateCoroutinesApi
@@ -51,6 +52,16 @@ class MainActivity : AppCompatActivity() {
         val adapter = ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line)
         autoCompleteTextView.setAdapter(adapter)
 
+        // Set an OnItemClickListener to handle item selection
+        autoCompleteTextView.setOnItemClickListener { _, _, position, _ ->
+            val selectedAirport = adapter.getItem(position)
+            if (selectedAirport != null) {
+                // Handle the selected item, for example, log or display a toast
+                Log.i("MainActivity", "Selected Airport: $selectedAirport")
+                Toast.makeText(this, "Selected: $selectedAirport", Toast.LENGTH_SHORT).show()
+            }
+        }
+
         // Set a TextWatcher to update suggestions as the user types
         autoCompleteTextView.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
@@ -70,7 +81,7 @@ class MainActivity : AppCompatActivity() {
                         Log.i("MainActivity", "airports: $airports")
                         // Update the adapter with the new suggestions
                         adapter.clear()
-                        adapter.addAll(airports.map { airport -> airport.name })
+                        adapter.addAll(airports.map { airport -> "${airport.iata_code} ${airport.name}"})
                         adapter.notifyDataSetChanged()
                     }
                 }
