@@ -19,12 +19,18 @@ class AirportListAdapter(private val context: Context,
 )
     : ArrayAdapter<Airport>(context, resource, airportList) {
 
-    private val favoritedMap = HashMap<String, Boolean>() // Use a HashMap to track favoriting state
+    private val favoritedMap = HashMap<String, Boolean>() // Declare favoritedMap here
+
+    // Define the generateKey function here
+    private fun generateKey(departAirportCode: String, arriveAirportCode: String): String {
+        return "$departAirportCode-$arriveAirportCode" // Concatenate depart and arrive codes
+    }
 
     init {
         // Load favorited states from SharedPreferences
         airportList.forEach { airport ->
-            favoritedMap[airport.iata_code] = sharedPreferences.getBoolean(airport.iata_code, false)
+            val favoritedKey = generateKey(airport.iata_code, selectedAirport)
+            favoritedMap[favoritedKey] = sharedPreferences.getBoolean(favoritedKey, false)
         }
     }
 
@@ -42,8 +48,10 @@ class AirportListAdapter(private val context: Context,
         departAirportView.text = selectedAirport
         arriveAirportView.text = "${airport.iata_code} ${airport.name}"
 
+        val favoritedKey = generateKey(airport.iata_code, selectedAirport)
+
         // Set button visibility based on favoriting state from favoritedMap
-        if (favoritedMap[airport.iata_code] == true) {
+        if (favoritedMap[favoritedKey] == true) {
             emptyButton.visibility = View.GONE
             filledButton.visibility = View.VISIBLE
         } else {
@@ -52,15 +60,15 @@ class AirportListAdapter(private val context: Context,
         }
 
         emptyButton.setOnClickListener {
-            favoritedMap[airport.iata_code] = true
-            saveFavoritedState(airport.iata_code, true)
+            favoritedMap[favoritedKey] = true
+            saveFavoritedState(favoritedKey, true)
             emptyButton.visibility = View.GONE
             filledButton.visibility = View.VISIBLE
         }
 
         filledButton.setOnClickListener {
-            favoritedMap[airport.iata_code] = false
-            saveFavoritedState(airport.iata_code, false)
+            favoritedMap[favoritedKey] = false
+            saveFavoritedState(favoritedKey, false)
             filledButton.visibility = View.GONE
             emptyButton.visibility = View.VISIBLE
         }
@@ -68,7 +76,7 @@ class AirportListAdapter(private val context: Context,
         return itemView
     }
     private fun saveFavoritedState(airportCode: String, isFavorited: Boolean) {
-        favoritedMap[airportCode] = isFavorited
-        sharedPreferences.edit().putBoolean(airportCode, isFavorited).apply()
+        favoritedMap[airportCode.toString()] = isFavorited
+        sharedPreferences.edit().putBoolean(airportCode.toString(), isFavorited).apply()
     }
 }
