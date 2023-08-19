@@ -11,19 +11,21 @@ import android.widget.TextView
 import com.example.data.Airport
 import com.example.data.R
 
-class AirportListAdapter(private val context: Context,
-                         private val resource: Int,
-                         private val selectedAirport: String,
-                         private val airportList: List<Airport>,
-                         private val sharedPreferences: SharedPreferences
-)
-    : ArrayAdapter<Airport>(context, resource, airportList) {
+class AirportListAdapter(
+    private val context: Context,
+    private val resource: Int,
+    private val selectedAirport: String,
+    private val airportList: List<Airport>,
+    private val sharedPreferences: SharedPreferences
+) : ArrayAdapter<Airport>(context, resource, airportList) {
 
-    private val favoritedMap = HashMap<String, Boolean>() // Declare favoritedMap here
+    private val favoritedMap = HashMap<String, Boolean>()
 
-    // Define the generateKey function here
-    private fun generateKey(departAirportCode: String, arriveAirportCode: String): String {
-        return "$departAirportCode-$arriveAirportCode" // Concatenate depart and arrive codes
+    private var sharedPreferencesUpdateListener: SharedPreferencesUpdateListener? = null
+
+    // Set the listener for SharedPreferences updates
+    fun setSharedPreferencesUpdateListener(listener: SharedPreferencesUpdateListener) {
+        sharedPreferencesUpdateListener = listener
     }
 
     init {
@@ -75,8 +77,16 @@ class AirportListAdapter(private val context: Context,
 
         return itemView
     }
+
     private fun saveFavoritedState(airportCode: String, isFavorited: Boolean) {
-        favoritedMap[airportCode.toString()] = isFavorited
-        sharedPreferences.edit().putBoolean(airportCode.toString(), isFavorited).apply()
+        favoritedMap[airportCode] = isFavorited
+        sharedPreferences.edit().putBoolean(airportCode, isFavorited).apply()
+
+        // Notify the listener that SharedPreferences were updated
+        sharedPreferencesUpdateListener?.onSharedPreferencesUpdated()
+    }
+
+    private fun generateKey(departAirportCode: String, arriveAirportCode: String): String {
+        return "$departAirportCode-$arriveAirportCode"
     }
 }

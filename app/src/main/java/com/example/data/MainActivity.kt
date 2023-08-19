@@ -16,6 +16,7 @@
 package com.example.data
 
 import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -26,10 +27,11 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.example.ui.AirportListAdapter
+import com.example.ui.SharedPreferencesUpdateListener
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.launch
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), SharedPreferencesUpdateListener {
 
     private lateinit var airportListAdapter: AirportListAdapter
     private lateinit var mListView: ListView
@@ -38,11 +40,15 @@ class MainActivity : AppCompatActivity() {
     var emptyAirportList: List<Airport> = emptyList()
     var favoriteAirportList: List<Airport> = emptyList()
     private var selectedAirport: String = ""
+    private lateinit var sharedPreferences: SharedPreferences
+    private lateinit var favoritedListView: ListView
 
     @OptIn(DelicateCoroutinesApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        sharedPreferences = getSharedPreferences("favorited_airports", Context.MODE_PRIVATE)
 
         val appDatabase =
             AppDatabase.getDatabase(applicationContext) // Initialize Room database
@@ -50,6 +56,7 @@ class MainActivity : AppCompatActivity() {
         airportRepository = AirportRepository(airportDao)
 
         mListView = findViewById(R.id.airportListView)
+        favoritedListView = findViewById(R.id.airportListView)
 
         eventHandler()
     }
@@ -94,7 +101,7 @@ class MainActivity : AppCompatActivity() {
 
                 if (isInputEmpty) {
                     // Handle the case when the text box is empty
-                    updateAirportList(favoriteAirportList)
+                    onSharedPreferencesUpdated()
 
                 } else {
                     lifecycleScope.launch {
@@ -122,6 +129,24 @@ class MainActivity : AppCompatActivity() {
             getSharedPreferences("favorited_airports", Context.MODE_PRIVATE)
         )
         mListView.adapter = airportListAdapter
+    }
+
+    // Implement the callback method from SharedPreferencesUpdateListener
+    override fun onSharedPreferencesUpdated() {
+        // Retrieve favorited items from SharedPreferences
+        val favoritedItems = mutableListOf<String>()
+        for (airportCode in sharedPreferences.all.keys) {
+            val isFavorited = sharedPreferences.getBoolean(airportCode, false)
+            if (isFavorited) {
+                favoritedItems.add(airportCode)
+            }
+        }
+
+        // Create an ArrayAdapter for favorited items
+        val favoritedAdapter = ArrayAdapter(this, R.layout.single_item, favoritedItems)
+
+        // Set the favorited adapter to the favorited ListView
+        favoritedListView.adapter = favoritedAdapter
     }
 }
 
