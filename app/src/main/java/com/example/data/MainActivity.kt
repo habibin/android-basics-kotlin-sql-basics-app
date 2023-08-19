@@ -36,7 +36,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var airportRepository: AirportRepository
     var emptyAirportList: List<Airport> = emptyList()
     var favoriteAirportList: List<Airport> = emptyList()
-    var selectedAirport: String = ""
+    private var selectedAirport: String = ""
 
     @OptIn(DelicateCoroutinesApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -73,7 +73,6 @@ class MainActivity : AppCompatActivity() {
                 // Observe the Flow using a coroutine
                 allAirports.collect { airports ->
                     updateAirportList(airports)
-
                 }
             }
         }
@@ -84,20 +83,30 @@ class MainActivity : AppCompatActivity() {
                 // This method is called before the text changes
             }
 
+            // Inside the TextWatcher's onTextChanged method
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 // This method is called when the text is changing
                 val searchText = s.toString()
 
-                lifecycleScope.launch {
-                    // Call the searchAirports function from the repository
-                    val airportsFlow = airportRepository.searchAirports(searchText)
+                // Check if the input is empty or not
+                val isInputEmpty = searchText.isEmpty()
 
-                    // Observe the Flow using a coroutine
-                    airportsFlow.collect { airports ->
-                        // Update the adapter with the new suggestions
-                        adapter.clear()
-                        adapter.addAll(airports.map { airport -> "${airport.iata_code} ${airport.name}"})
-                        adapter.notifyDataSetChanged()
+                if (isInputEmpty) {
+                    // Handle the case when the text box is empty
+                    updateAirportList(favoriteAirportList)
+
+                } else {
+                    lifecycleScope.launch {
+                        // Call the searchAirports function from the repository
+                        val airportsFlow = airportRepository.searchAirports(searchText)
+
+                        // Observe the Flow using a coroutine
+                        airportsFlow.collect { airports ->
+                            // Update the adapter with the new suggestions
+                            adapter.clear()
+                            adapter.addAll(airports.map { airport -> "${airport.iata_code} ${airport.name}"})
+                            adapter.notifyDataSetChanged()
+                        }
                     }
                 }
             }

@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
-import android.widget.ImageView
+import android.widget.ImageButton
 import android.widget.TextView
 import com.example.data.Airport
 import com.example.data.R
@@ -20,14 +20,36 @@ class AirportListAdapter(context: Context, private val resource: Int, private va
 
         val departAirportView: TextView = itemView.findViewById(R.id.departAirportView)
         val arriveAirportView: TextView = itemView.findViewById(R.id.arriveAirportView)
+        val emptyButton: ImageButton = itemView.findViewById(R.id.emptyButton)
+        val filledButton: ImageButton = itemView.findViewById(R.id.filledButton)
 
         // Set data to the TextViews
         departAirportView.text = selectedAirport
         arriveAirportView.text = "${airport.iata_code} ${airport.name}"
 
-        val emptyButton: ImageView = itemView.findViewById(R.id.emptyButton)
-        emptyButton.visibility = View.VISIBLE
+        emptyButton.setOnClickListener {
+            // Handle the click event for the emptyButton within an item
+            emptyButton.visibility = View.GONE
+            filledButton.visibility = View.VISIBLE
 
+            // Perform additional actions if needed
+        }
+
+        filledButton.setOnClickListener {
+            // Handle the click event for the filledButton within an item
+            filledButton.visibility = View.GONE
+            emptyButton.visibility = View.VISIBLE
+
+            // Perform additional actions if needed
+        }
+
+
+        return itemView
+    }
+}
+
+//        val emptyButton: ImageView = itemView.findViewById(R.id.emptyButton)
+//        emptyButton.visibility = View.VISIBLE
 //        // Check if the current item is a favorite
 //        val isFavorite = favoriteItems.contains(position)
 //
@@ -39,7 +61,3 @@ class AirportListAdapter(context: Context, private val resource: Int, private va
 //            filledFavoriteIcon.visibility = View.GONE
 //            emptyFavoriteIcon.visibility = View.VISIBLE
 //        }
-
-        return itemView
-    }
-}
