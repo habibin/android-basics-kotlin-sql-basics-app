@@ -143,7 +143,7 @@ class MainActivity : AppCompatActivity(), SharedPreferencesUpdateListener {
         }
 
         // Create an ArrayAdapter for favorited items
-        val favoritedAdapter = ArrayAdapter(this, R.layout.single_item, favoritedItems)
+        val favoritedAdapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, favoritedItems)
 
         // Set the favorited adapter to the favorited ListView
         favoritedListView.adapter = favoritedAdapter

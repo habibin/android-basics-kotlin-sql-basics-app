@@ -50,7 +50,7 @@ class AirportListAdapter(
         departAirportView.text = selectedAirport
         arriveAirportView.text = "${airport.iata_code} ${airport.name}"
 
-        val favoritedKey = generateKey(airport.iata_code, selectedAirport)
+        val favoritedKey = generateKey(selectedAirport,"${airport.iata_code} ${airport.name}")
 
         // Set button visibility based on favoriting state from favoritedMap
         if (favoritedMap[favoritedKey] == true) {
