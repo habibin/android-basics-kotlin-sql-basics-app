@@ -15,6 +15,7 @@
  */
 package com.example.data
 
+import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -117,7 +118,9 @@ class MainActivity : AppCompatActivity() {
         })
     }
     private fun updateAirportList(newList: List<Airport>) {
-        val airportListAdapter = AirportListAdapter(this, R.layout.single_item,selectedAirport, newList)
+        val airportListAdapter = AirportListAdapter(this, R.layout.single_item, selectedAirport, newList,
+            getSharedPreferences("favorited_airports", Context.MODE_PRIVATE)
+        )
         mListView.adapter = airportListAdapter
     }
 }

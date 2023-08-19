@@ -23,21 +23,7 @@ data class Airport(
     @PrimaryKey val id: Int,
     val name: String,
     val iata_code: String,
-    val passengers: Long
+    val passengers: Long,
 )
 
-// Flight.kt
-@Entity(tableName = "flights")
-data class Flight(
-    @PrimaryKey val id: Int,
-    val sourceAirportIata: String,
-    val destinationAirportIata: String
-)
-
-// FavoriteRoute.kt
-@Entity(tableName = "favorite_routes")
-data class FavoriteRoute(
-    @PrimaryKey val id: Int,
-    val flightId: Int
-)
 
